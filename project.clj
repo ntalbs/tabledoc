@@ -3,4 +3,5 @@
   :license {:name "The MIT License (MIT)"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 ])
+                 [org.clojars.zentrope/ojdbc "11.2.0.3.0"]
+                 [korma "0.3.0-RC6"]])
