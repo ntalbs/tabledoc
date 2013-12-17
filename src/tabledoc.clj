@@ -5,8 +5,8 @@
   {:classname "oracle.jdbc.OracleDriver"
    :subprotocol "oracle"
    :subname "thin:@192.168.1.83:1521:testdb"
-   :user "hr"
-   :password "hr"
+   :user "xxx"
+   :password "xxx"
    :naming {:keys str/lower-case :fields str/upper-case}})
 
 ;; (def db-spec
@@ -22,8 +22,11 @@
 (defentity all_tab_comments)
 (defentity all_col_comments)
 
-;; (->> (select employees (fields [:FIRST_NAME :fn] [:LAST_NAME :ln]))
-;;      (map #(str (% :fn) " " (% :ln))))
+(defn get-tables [owners]
+  (select all_tables
+          (fields :owner :table_name)
+          (where {:owner [in owners]})
+          (order :table_name)))
 
 (defn get-tab-stat [owner tab-name]
   (select all_tables
@@ -43,10 +46,8 @@
           (where {:owner owner :table_name tab-name})
           (order :column_id)))
 
-(defn get-idx-desc [owner idx-name]
+(defn get-idx-desc [owner tab-name]
   (->> (select all_ind_columns
-               (fields :table_name :index_name :column_position :column_name)
-               (where {:index_owner owner :index_name idx-name})
-               (order :column_position))
-       (map #(:column_name %))
-       (str/join "+")))
+               (fields :index_name :column_position :column_name)
+               (where {:table_owner owner :table_name tab-name}))
+       (group-by #(% :index_name))))
