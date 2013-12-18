@@ -1,5 +1,9 @@
-(use '[korma db core config])
-(require '[clojure.string :as str])
+(ns dbms.oracle
+  (:use (korma db core config))
+  (:require (clojure [string :as str])))
+
+;; (use '[korma db core config])
+;; (require '[clojure.string :as str])
 
 (def db-spec
   {:classname "oracle.jdbc.OracleDriver"
@@ -18,6 +22,7 @@
 
 (defentity all_tables)
 (defentity all_tab_columns)
+(defentity all_indexes)
 (defentity all_ind_columns)
 (defentity all_tab_comments)
 (defentity all_col_comments)
@@ -28,10 +33,15 @@
           (where {:owner [in owners]})
           (order :table_name)))
 
+(defn get-tab-desc [owner tab-name]
+  (:comments (first (select all_tab_comments
+                            (fields :comments)
+                            (where {:owner owner :table_name tab-name})))))
+
 (defn get-tab-stat [owner tab-name]
-  (select all_tables
-          (fields :num_rows :blocks :avg_row_len :partitioned :last_analyzed)
-          (where {:owner owner :table_name tab-name})))
+  (first (select all_tables
+                 (fields :num_rows :blocks :avg_row_len :partitioned :last_analyzed)
+                 (where {:owner owner :table_name tab-name}))))
 
 (defn get-col-desc [owner tab-name]
   (select all_tab_columns
@@ -46,8 +56,25 @@
           (where {:owner owner :table_name tab-name})
           (order :column_id)))
 
+(defn- get-idx-cols [cols]
+  (->> (sort-by :column_position cols)
+       (map :column_name)
+       (str/join "+")))
+
+(defn get-idx-stat [owner idx-name]
+  (first (select all_indexes
+                 (fields :uniqueness :num_rows, :distinct_keys)
+                 (where {:owner owner :index_name idx-name}))))
+
 (defn get-idx-desc [owner tab-name]
   (->> (select all_ind_columns
                (fields :index_name :column_position :column_name)
                (where {:table_owner owner :table_name tab-name}))
-       (group-by #(% :index_name))))
+       (group-by #(% :index_name))
+       (map (fn [[n v]]
+              (let [idx-stat (get-idx-stat owner n)]
+                {:index_name n
+                 :index_cols (get-idx-cols v)
+                 :uniqueness idx-stat
+                 :num_rows idx-stat
+                 :distinct_keys idx-stat})))))
