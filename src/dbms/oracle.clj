@@ -2,9 +2,6 @@
   (:use (korma db core config))
   (:require (clojure [string :as str])))
 
-;; (use '[korma db core config])
-;; (require '[clojure.string :as str])
-
 (def db-spec
   {:classname "oracle.jdbc.OracleDriver"
    :subprotocol "oracle"
@@ -27,11 +24,12 @@
 (defentity all_tab_comments)
 (defentity all_col_comments)
 
-(defn get-tables [owners]
-  (select all_tables
-          (fields :owner :table_name)
-          (where {:owner [in owners]})
-          (order :table_name)))
+(defn get-tables [owner]
+  (->> (select all_tables
+               (fields :table_name)
+               (where {:owner owner})
+               (order :table_name))
+       (map #(% :table_name))))
 
 (defn get-tab-desc [owner tab-name]
   (:comments (first (select all_tab_comments
