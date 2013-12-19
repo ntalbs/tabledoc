@@ -10,8 +10,8 @@
 
 (h/deftemplate tbl-list-template "templates/all_tables.html" [tables]
   [:a] (h/clone-for [t tables]
-                    (h/do-> (h/set-attr :href (str (t :owner) "/" (t :table_name)))
-                            (h/content (t :table_name))
+                    (h/do-> (h/set-attr :href (str t ".html"))
+                            (h/content t)
                             )))
 
 (h/deftemplate tbl-template "templates/tbl.html" [tab-info]
@@ -56,11 +56,11 @@
 ;; (print
 ;;  (apply str (scheam-list-template ["HR" "SH" "OH" "XYS"])))
 
-(defn gen-tab-file [owner tab-name]
-  (with-open [w (writer (str "xxx/" tab-name ".html"))]
-    (.write w
-            (apply str (tbl-template (get-tab-info owner tab-name))))))
+(defn gen-tab-files [owner]
+  (doseq [tab-name (get-tables owner)]
+    (with-open [w (writer (str "xxx/" tab-name ".html"))]
+      (.write w (apply str (tbl-template (get-tab-info owner tab-name)))))))
 
-(doseq [t (get-tables "HR")]
-  (println (t :table_name))
-  (gen-tab-file (t :owner) (t :table_name)))
+(defn gen-tab-list [owner]
+  (with-open [w (writer (str "xxx/tables.html"))]
+    (.write w (apply str (tbl-list-template (get-tables owner))))))
