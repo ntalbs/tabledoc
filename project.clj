@@ -5,4 +5,6 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [enlive "1.1.5"]
                  [org.clojars.zentrope/ojdbc "11.2.0.3.0"]
-                 [korma "0.3.0-RC6"]])
+                 [korma "0.3.0-RC6"]]
+  :main tabledoc
+)

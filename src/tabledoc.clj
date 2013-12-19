@@ -83,8 +83,8 @@
 (defn copy-file [src dest]
   (copy (file src) (file dest)))
 
-(defn main [dest owners]
-  (do
+(defn -main [& args]
+  (let [dest (first args) owners (rest args)]
     (copy-file "src/templates/index.html" (str dest "/index.html"))
     (copy-file "src/templates/stylesheet.css" (str dest "/stylesheet.css"))
     (gen-overview dest)
