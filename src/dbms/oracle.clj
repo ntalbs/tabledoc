@@ -75,6 +75,6 @@
               (let [idx-stat (get-idx-stat owner n)]
                 {:index_name n
                  :index_cols (get-idx-cols v)
-                 :uniqueness idx-stat
-                 :num_rows idx-stat
-                 :distinct_keys idx-stat})))))
+                 :uniqueness (idx-stat :uniqueness)
+                 :num_rows (idx-stat :num_rows)
+                 :distinct_keys (idx-stat :distinct_keys)})))))
