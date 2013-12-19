@@ -1,25 +1,33 @@
 (ns tabledoc
+  (:require [net.cgrand.enlive-html :as h])
   (:use [dbms.oracle]
-        [clojure.java.io])
-  (:require [net.cgrand.enlive-html :as h]))
+        [clojure.java.io]))
 
-(h/deftemplate scheam-list-template "templates/schemas.html" [owners]
-  [[:a (h/nth-of-type 2)]] (h/clone-for [o owners]
-                                        (h/do-> (h/set-attr :href (str o "/tables.html"))
-                                                (h/content o))))
+(h/deftemplate overview-template "templates/overview.html" []
+  [:#generation-ts] (h/content (str (java.util.Date.))))
 
-(h/deftemplate tbl-list-template "templates/all_tables.html" [tables]
-  [:a] (h/clone-for [t tables]
-                    (h/do-> (h/set-attr :href (str t ".html"))
-                            (h/content t)
-                            )))
+(h/deftemplate schema-list-template "templates/schemas.html" [owners]
+  {[[:a (h/nth-of-type 2)]] [:br]} (h/clone-for [o owners]
+                                                [:a] (h/do-> (h/set-attr :href (str o "/tables.html"))
+                                                             (h/content o))))
 
-(h/deftemplate tbl-template "templates/tbl.html" [tab-info]
+(h/deftemplate all-tab-list-template "templates/tab_list.html" [tables]
+  {[:a] [:br]} (h/clone-for [t tables]
+                            [:a] (h/do-> (h/set-attr :href (str (t :owner) "/" (t :table_name) ".html"))
+                                         (h/content (t :table_name)))))
+
+(h/deftemplate tab-list-template "templates/tab_list.html" [owner tables]
+  [:h3] (h/content owner)
+  {[:a] [:br]} (h/clone-for [t tables]
+                            [:a] (h/do-> (h/set-attr :href (str t ".html"))
+                                         (h/content t))))
+
+(h/deftemplate tbl-template "templates/tab.html" [tab-info]
   [:h1] (h/content (str (tab-info :owner) "." (tab-info :tab-name)))
   [:.table-desc] (h/content (tab-info :tab-desc))
   [:#v-rows] (h/content (str (get-in tab-info [:tab-stat :num_rows])))
-;  [:#v-bytes] (h/content (str (* 8192 (get-in tab-info [:tab-stat :blocks]))))
-  [:#v-bytes] (h/content (str (get-in tab-info [:tab-stat :blocks])))
+  [:#v-bytes] (let [blocks (get-in tab-info [:tab-stat :blocks])]
+                (h/content (if blocks (str (* 8192 blocks)) "")))
   [:#v-avg-row-len] (h/content (str (get-in tab-info [:tab-stat :avg_row_len])))
   [:#v-partitioned] (h/content (get-in tab-info [:tab-stat :partitioned]))
   [:#v-last-analyzed] (h/content (str (get-in tab-info [:tab-stat :last_analyzed])))
@@ -47,20 +55,41 @@
    :col-desc (get-col-desc owner tab-name)
    :idx-desc (get-idx-desc owner tab-name)})
 
-;; (print
-;;  (apply str (tbl-template (get-tab-info "HR" "COUNTRIES"))))
+(defn gen-overview [dest]
+  (with-open [w (writer (str dest "/overview.html"))]
+    (.write w (apply str (overview-template)))))
 
-;; (print
-;;  (apply str (tbl-list-template (get-tables "HR"))))
+(defn gen-schema-list [dest owners]
+  (with-open [w (writer (str dest "/schemas.html"))]
+    (.write w (apply str (schema-list-template owners)))))
 
-;; (print
-;;  (apply str (scheam-list-template ["HR" "SH" "OH" "XYS"])))
+(defn gen-all-tab-list [dest owners]
+  (with-open [w (writer (str dest "/all_tables.html"))]
+    (.write w (apply str (all-tab-list-template (get-all-tables owners))))))
 
-(defn gen-tab-files [owner]
+(defn gen-tab-list [dest owners]
+  (doseq [owner owners]
+    (let [path (str dest "/" owner "/tables.html")]
+      (make-parents path)
+      (with-open [w (writer path)]
+        (.write w (apply str (tab-list-template owner (get-tables owner))))))))
+
+(defn gen-tab-files [dest owner]
   (doseq [tab-name (get-tables owner)]
-    (with-open [w (writer (str "xxx/" tab-name ".html"))]
+    (println (str dest "/" owner "/" tab-name ".html"))
+    (with-open [w (writer (str dest "/" owner "/" tab-name ".html"))]
       (.write w (apply str (tbl-template (get-tab-info owner tab-name)))))))
 
-(defn gen-tab-list [owner]
-  (with-open [w (writer (str "xxx/tables.html"))]
-    (.write w (apply str (tbl-list-template (get-tables owner))))))
+(defn copy-file [src dest]
+  (copy (file src) (file dest)))
+
+(defn main [dest owners]
+  (do
+    (copy-file "src/templates/index.html" (str dest "/index.html"))
+    (copy-file "src/templates/stylesheet.css" (str dest "/stylesheet.css"))
+    (gen-overview dest)
+    (gen-schema-list dest owners)
+    (gen-all-tab-list dest owners)
+    (gen-tab-list dest owners)
+    (doseq [owner owners]
+      (gen-tab-files dest owner))))

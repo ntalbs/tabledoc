@@ -24,6 +24,11 @@
 (defentity all_tab_comments)
 (defentity all_col_comments)
 
+(defn get-all-tables [owners]
+  (select all_tables
+          (fields :owner :table_name)
+          (where {:owner [in owners]})))
+
 (defn get-tables [owner]
   (->> (select all_tables
                (fields :table_name)
