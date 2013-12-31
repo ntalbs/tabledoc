@@ -1,7 +1,8 @@
 (ns tabledoc
   (:require [net.cgrand.enlive-html :as h])
   (:use [dbms.oracle]
-        [clojure.java.io]))
+        [clojure.java.io]
+        [clojure.contrib.command-line]))
 
 (h/deftemplate overview-template "templates/overview.html" []
   [:#generation-ts] (h/content (str (java.util.Date.))))
@@ -81,15 +82,22 @@
       (.write w (apply str (tbl-template (get-tab-info owner tab-name)))))))
 
 (defn copy-file [src dest]
-  (copy (file src) (file dest)))
+  (do
+    (make-parents dest)
+    (copy (file src) (file dest))))
 
 (defn -main [& args]
-  (let [dest (first args) owners (rest args)]
-    (copy-file "src/templates/index.html" (str dest "/index.html"))
-    (copy-file "src/templates/stylesheet.css" (str dest "/stylesheet.css"))
-    (gen-overview dest)
-    (gen-schema-list dest owners)
-    (gen-all-tab-list dest owners)
-    (gen-tab-list dest owners)
-    (doseq [owner owners]
-      (gen-tab-files dest owner))))
+  (with-command-line args
+    "tabledoc:"
+    [[d "destination directory" "./db_doc"]
+     [s "schemas (or databases or owners): comma separated list"]
+     remaining]
+    (let [dest d owners (clojure.string/split s #",")]
+      (copy-file "src/templates/index.html" (str dest "/index.html"))
+      (copy-file "src/templates/stylesheet.css" (str dest "/stylesheet.css"))
+      (gen-overview dest)
+      (gen-schema-list dest owners)
+      (gen-all-tab-list dest owners)
+      (gen-tab-list dest owners)
+      (doseq [owner owners]
+        (gen-tab-files dest owner)))))
