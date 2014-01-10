@@ -2,18 +2,18 @@
   (:use (korma db core config))
   (:require (clojure [string :as str])))
 
-(def db-spec
-  {:classname "oracle.jdbc.OracleDriver"
-   :subprotocol "oracle"
-   :subname "thin:@192.168.1.83:1521:testdb"
-   :user "xxx"
-   :password "xxx"
-   :naming {:keys str/lower-case :fields str/upper-case}})
-
 ;; (def db-spec
-;;   (oracle {:keys ["192.168.1.83" 1521 true]
-;;            :as {:user "hr" :password "hr"}
-;;            :naming {:keys str/lower-case :fields str/upper-case}}))
+;;   {:classname "oracle.jdbc.OracleDriver"
+;;    :subprotocol "oracle"
+;;    :subname "thin:@192.168.1.83:1521:testdb"
+;;    :user "xxx"
+;;    :password "xxx"
+;;    :naming {:keys str/lower-case :fields str/upper-case}})
+
+(def db-spec
+  (oracle {:subname "@//192.168.1.83:1521/testdb"
+           :user "xxx" :password "xxx"
+           :naming {:keys str/lower-case :fields str/upper-case}}))
 
 (defdb korma-db db-spec)
 
