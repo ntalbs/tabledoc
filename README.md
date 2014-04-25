@@ -13,7 +13,7 @@ Clone this project and edit `config.clj`.
 
 ## Usage
 
-    $ lein run ${target} owner1 owner2 ...
+    $ lein run -d ${target} -s "owner1,owner2,..."
 
 Before running this, JRE and Clojure (Leiningen) should be installed.
 
