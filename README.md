@@ -22,7 +22,7 @@ If you want to connect to Oracle DBMS, you should prepare the Oracle JDBC Driver
 
     $ mvn install:install-file -X -DgroupId=local -DartifactId=ojdbc6 -Dversion=11.2.0.3 -Dpackaging=jar -Dfile=/opt/oracle/instantclient/ojdbc6.jar -DgeneratePom=true
 
-And when you specify the owners, they should be upper case.
+And when you specify the owners, they should be **upper case**.
 
 ## Todo
 
