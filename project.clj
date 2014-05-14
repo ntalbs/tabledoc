@@ -10,4 +10,5 @@
                  [enlive "1.1.5"]
                  [korma "0.3.1"]]
   :main tabledoc
+  :plugins [[cider/cider-nrepl "0.6.0"]]
 )
