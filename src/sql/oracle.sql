@@ -1,4 +1,4 @@
--- this sql queries are not used directly in the clojure codes.
+-- these sql queries are not used directly in the clojure codes.
 
 -- list of all tables in specified schemas
 select owner, table_name
