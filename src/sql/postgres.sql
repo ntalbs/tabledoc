@@ -11,12 +11,20 @@ from pg_tables
 where schemaname = :s;
 
 -- table comment
-select description
-from   pg_description
-where  objoid = 'schema.tanblename'::regclass;
+select obj_description(oid)
+from pg_class
+where relkind = 'r'
+and relname = :t
+
+-- select description
+-- from   pg_description
+-- where  objoid = 'schema.tanblename'::regclass
+-- and objsubid = 0;
 
 -- table stats
-
+select n_live_up, pg_table_size(relid), null, null, last_analyze
+from pg_stat_user_table
+where schemaname = :s and relname = :t;
 
 -- column description for a specified table
 select distinct
