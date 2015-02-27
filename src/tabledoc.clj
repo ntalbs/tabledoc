@@ -2,7 +2,8 @@
   (:require [net.cgrand.enlive-html :as h])
   (:use [dbms.oracle]
         [clojure.java.io]
-        [clojure.contrib.command-line]))
+        [clojure.contrib.command-line])
+  (:gen-class))
 
 (h/deftemplate overview-template "templates/overview.html" []
   [:#generation-ts] (h/content (str (java.util.Date.))))
@@ -87,6 +88,7 @@
     (copy (file src) (file dest))))
 
 (defn -main [& args]
+  (println (.getCanonicalPath (java.io.File. ".")))
   (with-command-line args
     "tabledoc:"
     [[d "destination directory" "./db_doc"]
