@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link media="screen" type="text/css" href="../stylesheet.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="nav">
+      <a href="#table-stat">Table Statistics Summary</a> |
+      <a href="#column-desc">Column Descriptions</a> |
+      <a href="#index-desc">Index Descriptions</a> |
+      <a href="../overview.html">Overview</a>
+    </div>
+
+    <h1>OE.PRODUCT_INFORMATION</h1>
+    <hr />
+
+    <div class="table-desc">Non-industry-specific data in various categories.</div>
+    <hr />
+    <a name="table-stat"></a>
+    <table>
+      <tr>
+        <td class="item-name">Rows</td>
+        <td class="num" id="v-rows">288</td>
+      </tr>
+      <tr>
+        <td class="item-name">Bytes</td>
+        <td class="num" id="v-bytes">106496</td>
+      </tr>
+      <tr>
+        <td class="item-name">Average Row Length</td>
+        <td class="num" id="v-avg-row-len">224</td>
+      </tr>
+      <tr>
+        <td class="item-name">Partitioned?</td>
+        <td id="v-partitioned">NO</td>
+      </tr>
+      <tr>
+        <td class="item-name">Last Analyzed</td>
+        <td id="v-last-analyzed">2015-02-27 16:20:45.0</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="column-desc"></a>
+    <h2 id="col-desc-title">Column Description</h2>
+    <!-- 컬럼 설명 -->
+    <table class="col-desc">
+      <tr>
+        <th>Column Name</th>
+        <th>Null?</th>
+        <th>Data Type</th>
+        <th>Default</th>
+        <th>Distinct</th>
+        <th>Comment</th>
+      </tr>
+      <tr class="per-col-row">
+        <td class="column-name">PRODUCT_ID</td>
+        <td class="nullable">N</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Primary key column.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">PRODUCT_NAME</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment"></td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">PRODUCT_DESCRIPTION</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Primary language description corresponding to translated_description in
+oe.product_descriptions, added to provide non-NLS text columns for OC views
+to accss.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">CATEGORY_ID</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Low cardinality column, can be used for bitmap index.
+Schema SH uses it as foreign key</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">WEIGHT_CLASS</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Low cardinality column, can be used for bitmap index.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">WARRANTY_PERIOD</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">INTERVAL YEAR(2) TO MONTH</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">INTERVAL YEAER TO MONTH column, low cardinality, can be used for bitmap
+index.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">SUPPLIER_ID</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Offers possibility of extensions outside Common Schema.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">PRODUCT_STATUS</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Check constraint. Appropriate for complex rules, such as "All products in
+status PRODUCTION must have at least one inventory entry." Also appropriate
+for a trigger auditing status change.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">LIST_PRICE</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment"></td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">MIN_PRICE</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment"></td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">CATALOG_URL</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment"></td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="index-desc"></a>
+    <h2 id="index-desc-title">Index Description</h2>
+    <!-- 인덱스 설명 -->
+    <table>
+      <tr>
+        <th>Index Name</th>
+        <th>Columns</th>
+        <th>Uniq?</th>
+        <th>Distinct</th>
+        <th>Rows</th>
+      </tr>
+      <tr class="per-idx-row">
+        <td class="index-name">PROD_SUPPLIER_IX</td>
+        <td class="columns">SUPPLIER_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">62</td>
+        <td class="rows">288</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">PRODUCT_INFORMATION_PK</td>
+        <td class="columns">PRODUCT_ID</td>
+        <td class="uniq">UNIQUE</td>
+        <td class="distinct">288</td>
+        <td class="rows">288</td>
+      </tr>
+    </table>
+  </body>
+
+</html>

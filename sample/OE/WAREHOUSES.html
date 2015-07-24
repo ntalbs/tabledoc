@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link media="screen" type="text/css" href="../stylesheet.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="nav">
+      <a href="#table-stat">Table Statistics Summary</a> |
+      <a href="#column-desc">Column Descriptions</a> |
+      <a href="#index-desc">Index Descriptions</a> |
+      <a href="../overview.html">Overview</a>
+    </div>
+
+    <h1>OE.WAREHOUSES</h1>
+    <hr />
+
+    <div class="table-desc">Warehouse data unspecific to any industry.</div>
+    <hr />
+    <a name="table-stat"></a>
+    <table>
+      <tr>
+        <td class="item-name">Rows</td>
+        <td class="num" id="v-rows">9</td>
+      </tr>
+      <tr>
+        <td class="item-name">Bytes</td>
+        <td class="num" id="v-bytes">40960</td>
+      </tr>
+      <tr>
+        <td class="item-name">Average Row Length</td>
+        <td class="num" id="v-avg-row-len">78</td>
+      </tr>
+      <tr>
+        <td class="item-name">Partitioned?</td>
+        <td id="v-partitioned">NO</td>
+      </tr>
+      <tr>
+        <td class="item-name">Last Analyzed</td>
+        <td id="v-last-analyzed">2015-02-27 16:20:45.0</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="column-desc"></a>
+    <h2 id="col-desc-title">Column Description</h2>
+    <!-- 컬럼 설명 -->
+    <table class="col-desc">
+      <tr>
+        <th>Column Name</th>
+        <th>Null?</th>
+        <th>Data Type</th>
+        <th>Default</th>
+        <th>Distinct</th>
+        <th>Comment</th>
+      </tr>
+      <tr class="per-col-row">
+        <td class="column-name">WAREHOUSE_ID</td>
+        <td class="nullable">N</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Primary key column.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">WAREHOUSE_SPEC</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">XMLTYPE</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment"></td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">WAREHOUSE_NAME</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment"></td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">LOCATION_ID</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Primary key column, references hr.locations.location_id.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">WH_GEO_LOCATION</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">SDO_GEOMETRY</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">SDO (spatial) column.</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="index-desc"></a>
+    <h2 id="index-desc-title">Index Description</h2>
+    <!-- 인덱스 설명 -->
+    <table>
+      <tr>
+        <th>Index Name</th>
+        <th>Columns</th>
+        <th>Uniq?</th>
+        <th>Distinct</th>
+        <th>Rows</th>
+      </tr>
+      <tr class="per-idx-row">
+        <td class="index-name">WHS_LOCATION_IX</td>
+        <td class="columns">LOCATION_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">9</td>
+        <td class="rows">9</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">WAREHOUSES_PK</td>
+        <td class="columns">WAREHOUSE_ID</td>
+        <td class="uniq">UNIQUE</td>
+        <td class="distinct">9</td>
+        <td class="rows">9</td>
+      </tr>
+    </table>
+  </body>
+
+</html>

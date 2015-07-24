@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link media="screen" type="text/css" href="../stylesheet.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="nav">
+      <a href="#table-stat">Table Statistics Summary</a> |
+      <a href="#column-desc">Column Descriptions</a> |
+      <a href="#index-desc">Index Descriptions</a> |
+      <a href="../overview.html">Overview</a>
+    </div>
+
+    <h1>HR.EMPLOYEES</h1>
+    <hr />
+
+    <div class="table-desc">employees table. Contains 107 rows. References with departments,
+jobs, job_history tables. Contains a self reference.</div>
+    <hr />
+    <a name="table-stat"></a>
+    <table>
+      <tr>
+        <td class="item-name">Rows</td>
+        <td class="num" id="v-rows">107</td>
+      </tr>
+      <tr>
+        <td class="item-name">Bytes</td>
+        <td class="num" id="v-bytes">40960</td>
+      </tr>
+      <tr>
+        <td class="item-name">Average Row Length</td>
+        <td class="num" id="v-avg-row-len">71</td>
+      </tr>
+      <tr>
+        <td class="item-name">Partitioned?</td>
+        <td id="v-partitioned">NO</td>
+      </tr>
+      <tr>
+        <td class="item-name">Last Analyzed</td>
+        <td id="v-last-analyzed">2015-07-24 16:45:55.0</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="column-desc"></a>
+    <h2 id="col-desc-title">Column Description</h2>
+    <!-- 컬럼 설명 -->
+    <table class="col-desc">
+      <tr>
+        <th>Column Name</th>
+        <th>Null?</th>
+        <th>Data Type</th>
+        <th>Default</th>
+        <th>Distinct</th>
+        <th>Comment</th>
+      </tr>
+      <tr class="per-col-row">
+        <td class="column-name">EMPLOYEE_ID</td>
+        <td class="nullable">N</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Primary key of employees table.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">FIRST_NAME</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">First name of the employee. A not null column.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">LAST_NAME</td>
+        <td class="nullable">N</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Last name of the employee. A not null column.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">EMAIL</td>
+        <td class="nullable">N</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Email id of the employee</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">PHONE_NUMBER</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Phone number of the employee; includes country code and area code</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">HIRE_DATE</td>
+        <td class="nullable">N</td>
+        <td class="data-type">DATE</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Date when the employee started on this job. A not null column.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">JOB_ID</td>
+        <td class="nullable">N</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Current job of the employee; foreign key to job_id column of the
+jobs table. A not null column.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">SALARY</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Monthly salary of the employee. Must be greater
+than zero (enforced by constraint emp_salary_min)</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">COMMISSION_PCT</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Commission percentage of the employee; Only employees in sales
+department elgible for commission percentage</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">MANAGER_ID</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Manager id of the employee; has same domain as manager_id in
+departments table. Foreign key to employee_id column of employees table.
+(useful for reflexive joins and CONNECT BY query)</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">DEPARTMENT_ID</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Department id where employee works; foreign key to department_id
+column of the departments table</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="index-desc"></a>
+    <h2 id="index-desc-title">Index Description</h2>
+    <!-- 인덱스 설명 -->
+    <table>
+      <tr>
+        <th>Index Name</th>
+        <th>Columns</th>
+        <th>Uniq?</th>
+        <th>Distinct</th>
+        <th>Rows</th>
+      </tr>
+      <tr class="per-idx-row">
+        <td class="index-name">EMP_NAME_IX</td>
+        <td class="columns">LAST_NAME+FIRST_NAME</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">107</td>
+        <td class="rows">107</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">EMP_MANAGER_IX</td>
+        <td class="columns">MANAGER_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">18</td>
+        <td class="rows">106</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">EMP_JOB_IX</td>
+        <td class="columns">JOB_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">19</td>
+        <td class="rows">107</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">EMP_DEPARTMENT_IX</td>
+        <td class="columns">DEPARTMENT_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">11</td>
+        <td class="rows">106</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">EMP_EMP_ID_PK</td>
+        <td class="columns">EMPLOYEE_ID</td>
+        <td class="uniq">UNIQUE</td>
+        <td class="distinct">107</td>
+        <td class="rows">107</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">EMP_EMAIL_UK</td>
+        <td class="columns">EMAIL</td>
+        <td class="uniq">UNIQUE</td>
+        <td class="distinct">107</td>
+        <td class="rows">107</td>
+      </tr>
+    </table>
+  </body>
+
+</html>
