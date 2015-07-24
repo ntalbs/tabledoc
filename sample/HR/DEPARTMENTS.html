@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link media="screen" type="text/css" href="../stylesheet.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="nav">
+      <a href="#table-stat">Table Statistics Summary</a> |
+      <a href="#column-desc">Column Descriptions</a> |
+      <a href="#index-desc">Index Descriptions</a> |
+      <a href="../overview.html">Overview</a>
+    </div>
+
+    <h1>HR.DEPARTMENTS</h1>
+    <hr />
+
+    <div class="table-desc">Departments table that shows details of departments where employees
+work. Contains 27 rows; references with locations, employees, and job_history tables.</div>
+    <hr />
+    <a name="table-stat"></a>
+    <table>
+      <tr>
+        <td class="item-name">Rows</td>
+        <td class="num" id="v-rows">27</td>
+      </tr>
+      <tr>
+        <td class="item-name">Bytes</td>
+        <td class="num" id="v-bytes">40960</td>
+      </tr>
+      <tr>
+        <td class="item-name">Average Row Length</td>
+        <td class="num" id="v-avg-row-len">23</td>
+      </tr>
+      <tr>
+        <td class="item-name">Partitioned?</td>
+        <td id="v-partitioned">NO</td>
+      </tr>
+      <tr>
+        <td class="item-name">Last Analyzed</td>
+        <td id="v-last-analyzed">2015-07-24 16:45:55.0</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="column-desc"></a>
+    <h2 id="col-desc-title">Column Description</h2>
+    <!-- 컬럼 설명 -->
+    <table class="col-desc">
+      <tr>
+        <th>Column Name</th>
+        <th>Null?</th>
+        <th>Data Type</th>
+        <th>Default</th>
+        <th>Distinct</th>
+        <th>Comment</th>
+      </tr>
+      <tr class="per-col-row">
+        <td class="column-name">DEPARTMENT_ID</td>
+        <td class="nullable">N</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Primary key column of departments table.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">DEPARTMENT_NAME</td>
+        <td class="nullable">N</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">A not null column that shows name of a department. Administration,
+Marketing, Purchasing, Human Resources, Shipping, IT, Executive, Public
+Relations, Sales, Finance, and Accounting. </td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">MANAGER_ID</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Manager_id of a department. Foreign key to employee_id column of employees table. The manager_id column of the employee table references this column.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">LOCATION_ID</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Location id where a department is located. Foreign key to location_id column of locations table.</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="index-desc"></a>
+    <h2 id="index-desc-title">Index Description</h2>
+    <!-- 인덱스 설명 -->
+    <table>
+      <tr>
+        <th>Index Name</th>
+        <th>Columns</th>
+        <th>Uniq?</th>
+        <th>Distinct</th>
+        <th>Rows</th>
+      </tr>
+      <tr class="per-idx-row">
+        <td class="index-name">DEPT_LOCATION_IX</td>
+        <td class="columns">LOCATION_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">7</td>
+        <td class="rows">27</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">DEPT_ID_PK</td>
+        <td class="columns">DEPARTMENT_ID</td>
+        <td class="uniq">UNIQUE</td>
+        <td class="distinct">27</td>
+        <td class="rows">27</td>
+      </tr>
+    </table>
+  </body>
+
+</html>

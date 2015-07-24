@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link media="screen" type="text/css" href="../stylesheet.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="nav">
+      <a href="#table-stat">Table Statistics Summary</a> |
+      <a href="#column-desc">Column Descriptions</a> |
+      <a href="#index-desc">Index Descriptions</a> |
+      <a href="../overview.html">Overview</a>
+    </div>
+
+    <h1>HR.JOB_HISTORY</h1>
+    <hr />
+
+    <div class="table-desc">Table that stores job history of the employees. If an employee
+changes departments within the job or changes jobs within the department,
+new rows get inserted into this table with old job information of the
+employee. Contains a complex primary key: employee_id+start_date.
+Contains 25 rows. References with jobs, employees, and departments tables.</div>
+    <hr />
+    <a name="table-stat"></a>
+    <table>
+      <tr>
+        <td class="item-name">Rows</td>
+        <td class="num" id="v-rows">10</td>
+      </tr>
+      <tr>
+        <td class="item-name">Bytes</td>
+        <td class="num" id="v-bytes">40960</td>
+      </tr>
+      <tr>
+        <td class="item-name">Average Row Length</td>
+        <td class="num" id="v-avg-row-len">34</td>
+      </tr>
+      <tr>
+        <td class="item-name">Partitioned?</td>
+        <td id="v-partitioned">NO</td>
+      </tr>
+      <tr>
+        <td class="item-name">Last Analyzed</td>
+        <td id="v-last-analyzed">2015-07-24 16:45:57.0</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="column-desc"></a>
+    <h2 id="col-desc-title">Column Description</h2>
+    <!-- 컬럼 설명 -->
+    <table class="col-desc">
+      <tr>
+        <th>Column Name</th>
+        <th>Null?</th>
+        <th>Data Type</th>
+        <th>Default</th>
+        <th>Distinct</th>
+        <th>Comment</th>
+      </tr>
+      <tr class="per-col-row">
+        <td class="column-name">EMPLOYEE_ID</td>
+        <td class="nullable">N</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">A not null column in the complex primary key employee_id+start_date.
+Foreign key to employee_id column of the employee table</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">START_DATE</td>
+        <td class="nullable">N</td>
+        <td class="data-type">DATE</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">A not null column in the complex primary key employee_id+start_date.
+Must be less than the end_date of the job_history table. (enforced by
+constraint jhist_date_interval)</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">END_DATE</td>
+        <td class="nullable">N</td>
+        <td class="data-type">DATE</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Last day of the employee in this job role. A not null column. Must be
+greater than the start_date of the job_history table.
+(enforced by constraint jhist_date_interval)</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">JOB_ID</td>
+        <td class="nullable">N</td>
+        <td class="data-type">VARCHAR2</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Job role in which the employee worked in the past; foreign key to
+job_id column in the jobs table. A not null column.</td>
+      </tr><tr class="per-col-row">
+        <td class="column-name">DEPARTMENT_ID</td>
+        <td class="nullable">Y</td>
+        <td class="data-type">NUMBER</td>
+        <td class="default"></td>
+        <td class="distinct"></td>
+        <td class="comment">Department id in which the employee worked in the past; foreign key to deparment_id column in the departments table</td>
+      </tr>
+    </table>
+    <hr />
+
+    <a name="index-desc"></a>
+    <h2 id="index-desc-title">Index Description</h2>
+    <!-- 인덱스 설명 -->
+    <table>
+      <tr>
+        <th>Index Name</th>
+        <th>Columns</th>
+        <th>Uniq?</th>
+        <th>Distinct</th>
+        <th>Rows</th>
+      </tr>
+      <tr class="per-idx-row">
+        <td class="index-name">JHIST_EMP_ID_ST_DATE_PK</td>
+        <td class="columns">EMPLOYEE_ID+START_DATE</td>
+        <td class="uniq">UNIQUE</td>
+        <td class="distinct">10</td>
+        <td class="rows">10</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">JHIST_JOB_IX</td>
+        <td class="columns">JOB_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">8</td>
+        <td class="rows">10</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">JHIST_EMPLOYEE_IX</td>
+        <td class="columns">EMPLOYEE_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">7</td>
+        <td class="rows">10</td>
+      </tr><tr class="per-idx-row">
+        <td class="index-name">JHIST_DEPARTMENT_IX</td>
+        <td class="columns">DEPARTMENT_ID</td>
+        <td class="uniq">NONUNIQUE</td>
+        <td class="distinct">6</td>
+        <td class="rows">10</td>
+      </tr>
+    </table>
+  </body>
+
+</html>

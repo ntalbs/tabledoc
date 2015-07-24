@@ -1,0 +1,39 @@
+body {
+  background-color: #FFFFFF;
+  color:#000000 font-family:serif;
+  font-size:90%;
+}
+h1 {
+  font-size: 140%;
+}
+h2 {
+  font-size: 120%;
+}
+table {
+  border-collapse: collapse;
+  border: 2px solid black;
+}
+th, td {
+  border: thin solid gray;
+  padding: 2px 10px;
+}
+th {
+  background: #CCCCFF;
+  color:#000000;
+} /* Dark mauve */
+.ItemName  {
+  background: #EEEEFF;
+  color:#000000;
+} /* Light mauve */
+.num {
+  text-align: right;
+}
+.IndexName {
+  background-color: #CACAFF;
+}
+.nav {
+  background-color: #DDDDFF;
+}
+a.nav:hover {
+  background-color: yellow;
+}
