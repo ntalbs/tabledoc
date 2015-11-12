@@ -39,7 +39,7 @@
                                  [:.nullable] (h/content (r :nullable))
                                  [:.data-type] (h/content (r :data_type))
                                  [:.default] (h/content (r :default))
-                                 [:.distinct] (h/content (r :distinct))
+                                 [:.distinct] (h/content (r :num_distinct))
                                  [:.comment] (h/content (r :comments)))
   [:#index-desc-title] (h/content "Index Description")
   [:tr.per-idx-row] (h/clone-for [r (tab-info :idx-desc)]
